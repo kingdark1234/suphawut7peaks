@@ -7,6 +7,7 @@ import { fromJS } from 'immutable';
 import { routerMiddleware } from 'connected-react-router/immutable';
 import createSagaMiddleware from 'redux-saga';
 import createReducer from './reducers';
+import sagas from './redux/saga/index.saga';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -34,8 +35,7 @@ export default function configureStore(initialState = {}, history) {
     composeEnhancers(...enhancers),
   );
 
-  // Extensions
-  store.runSaga = sagaMiddleware.run;
+  // Extensions=
   store.injectedReducers = {}; // Reducer registry
   store.injectedSagas = {}; // Saga registry
 
@@ -46,6 +46,6 @@ export default function configureStore(initialState = {}, history) {
       store.replaceReducer(createReducer(store.injectedReducers));
     });
   }
-
+  sagaMiddleware.run(sagas);
   return store;
 }

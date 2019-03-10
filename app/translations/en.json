@@ -1,1 +1,8 @@
-[]
+{
+  "Header":"New York Times",
+  "Read":"Read More...",
+  "Sorted":"Order By",
+  "Newest":"newest",
+  "Oldest":"oldest",
+  "Home":"HOME"
+}

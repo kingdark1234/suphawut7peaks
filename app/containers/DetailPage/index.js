@@ -13,20 +13,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { Container, Row, Image } from 'react-bootstrap';
-import HomePageComponent from '../../components/HomePage/homePage.component';
+import { push } from 'connected-react-router/immutable';
+import DetailComponent from '../../components/DetailPage/detailPage.component';
 import messages from './messages';
-import './homePage.style.css';
-import { getNyt, getSearchNyt, readMore } from '../../redux/action/action';
+import './detailPage.style.css';
+import { getNyt, getSearchNyt } from '../../redux/action/action';
 import Banner from '../../images/poweredby_nytimes_200c.png';
 
 /* eslint-disable react/prefer-stateless-function */
-class HomePage extends React.PureComponent {
-  componentDidMount() {
-    this.props.getDataNyt('newest');
-  }
-
+class DetailPage extends React.PureComponent {
   render() {
-    const { searchNyt, data, getDataNyt, gotoDetail } = this.props;
+    const { data, gotoHome } = this.props;
     return (
       <Container>
         <Row className="header">
@@ -35,14 +32,7 @@ class HomePage extends React.PureComponent {
           </h1>
         </Row>
         <Row>
-          {
-            <HomePageComponent
-              searchNyt={searchNyt}
-              data={data}
-              getDataNyt={getDataNyt}
-              gotoDetail={gotoDetail}
-            />
-          }
+          <DetailComponent data={data} gotoHome={gotoHome} />
         </Row>
         <Row>
           <a href="https://developer.nytimes.com">
@@ -61,9 +51,9 @@ export const mapStateToProps = state => ({
 export const mapDispatchToProps = dispatch => ({
   getDataNyt: payload => dispatch(getNyt(payload)),
   searchNyt: payload => dispatch(getSearchNyt(payload)),
-  gotoDetail: payload => dispatch(readMore(payload)),
+  gotoHome: () => dispatch(push('/')),
 });
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(HomePage);
+)(DetailPage);
